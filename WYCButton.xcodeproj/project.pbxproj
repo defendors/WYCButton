@@ -56,8 +56,6 @@
 		845769E71F9095A900C110F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		845769F31F90972000C110F3 /* WYCButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYCButton.h; sourceTree = "<group>"; };
 		845769F41F90972000C110F3 /* WYCButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYCButton.m; sourceTree = "<group>"; };
-		845769F81F90980100C110F3 /* UIImage+RoundedRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedRect.h"; sourceTree = "<group>"; };
-		845769F91F90980100C110F3 /* UIImage+RoundedRect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedRect.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +112,6 @@
 				845769C51F9095A800C110F3 /* ViewController.m */,
 				845769F31F90972000C110F3 /* WYCButton.h */,
 				845769F41F90972000C110F3 /* WYCButton.m */,
-				845769F81F90980100C110F3 /* UIImage+RoundedRect.h */,
-				845769F91F90980100C110F3 /* UIImage+RoundedRect.m */,
 				845769C71F9095A800C110F3 /* Main.storyboard */,
 				845769CA1F9095A800C110F3 /* Assets.xcassets */,
 				845769CC1F9095A900C110F3 /* LaunchScreen.storyboard */,

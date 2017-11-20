@@ -5,9 +5,37 @@
 //  Created by WD_王宇超 on 2017/10/13.
 //  Copyright © 2017年 WD_王宇超. All rights reserved.
 //
+#import <UIKit/UIKit.h>
+@interface UIImage (WYCButtonImage)
++ (UIImage *)createImageColor:(UIColor *)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius;
+@end
+@implementation UIImage(WYCButtonImage)
++ (UIImage *)createImageColor:(UIColor *)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius{
+	CGFloat temp_cornerRadius =cornerRadius;
+	CGFloat w = size.width;
+	CGFloat h = size.height;
+	if (temp_cornerRadius < 0)
+		temp_cornerRadius = 0;
+	else if (temp_cornerRadius > MIN(w, h))
+		temp_cornerRadius = MIN(w, h) / 2.;
+	
+	//开启图形上下文
+	UIGraphicsBeginImageContext(size);
+	//绘制颜色区域
+	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+	[color setFill];
+	[path fill];
+	//从图形上下文获取图片
+	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	//关闭图形上下文
+	UIGraphicsEndImageContext();
+	
+	return newImage;
+}
+@end
+
 
 #import "WYCButton.h"
-#import "UIImage+RoundedRect.h"
 @interface WYCButton()
 /** 定时器(这里不用带*，因为dispatch_source_t就是个类，内部已经包含了*) */
 @property (nonatomic, strong) dispatch_source_t timer;
@@ -169,16 +197,15 @@
 		_backgroundImageCornerRadius = self.layer.cornerRadius;
 	}
 	if (normalBackgroundImageColor) {
-		UIImage* originImage = [WYCButton imageWithColor:normalBackgroundImageColor size:imageSize];
-		normalBackgroundImage = [originImage roundedCornerImageWithCornerRadius:_backgroundImageCornerRadius];
+		normalBackgroundImage = [UIImage createImageColor:normalBackgroundImageColor size:imageSize cornerRadius:_backgroundImageCornerRadius];
 	}else{
 		normalBackgroundImage = nil;
 	}
 	[self setBackgroundImage:normalBackgroundImage forState:UIControlStateNormal];
 	
 	if (selectedBackgroundImageColor) {
-		UIImage* originImage = [WYCButton imageWithColor:selectedBackgroundImageColor size:imageSize];
-		selectedBackgroundImage = [originImage roundedCornerImageWithCornerRadius:_backgroundImageCornerRadius];
+
+		selectedBackgroundImage = [UIImage createImageColor:selectedBackgroundImageColor size:imageSize cornerRadius:_backgroundImageCornerRadius];
 	}else{
 		selectedBackgroundImage = nil;
 	}
@@ -187,27 +214,12 @@
 	[self setBackgroundImage:selectedBackgroundImage forState:UIControlStateSelected | UIControlStateHighlighted];
 	
 	if (disableBackgroundImageColor) {
-		UIImage* originImage = [WYCButton imageWithColor:disableBackgroundImageColor size:imageSize];
-		disableBackgroundImage = [originImage roundedCornerImageWithCornerRadius:_backgroundImageCornerRadius];
+		disableBackgroundImage = [UIImage createImageColor:disableBackgroundImageColor size:imageSize cornerRadius:_backgroundImageCornerRadius];
 	}else{
 		disableBackgroundImage = nil;
 	}
 	[self setBackgroundImage:disableBackgroundImage forState:UIControlStateDisabled];
 	
-}
-
-
-
-+ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
-	//绘制图片
-	CGRect rect = CGRectMake(0, 0, size.width, size.height);
-	UIGraphicsBeginImageContext(rect.size);
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextSetFillColorWithColor(context, [color CGColor]);
-	CGContextFillRect(context, rect);
-	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	return image;
 }
 /*
  // Only override drawRect: if you perform custom drawing.
