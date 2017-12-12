@@ -11,30 +11,17 @@
 @end
 @implementation UIImage(WYCButtonImage)
 + (UIImage *)createImageColor:(UIColor *)color size:(CGSize)size cornerRadius:(CGFloat)cornerRadius{
-	CGFloat temp_cornerRadius =cornerRadius;
 	CGFloat w = size.width;
 	CGFloat h = size.height;
-	if (temp_cornerRadius < 0)
-		temp_cornerRadius = 0;
-	else if (temp_cornerRadius > MIN(w, h))
-		temp_cornerRadius = MIN(w, h) / 2.;
-	
-	//开启图形上下文
 	if (size.width == 0 || size.height == 0) {
 		return nil;
 	}
 	UIGraphicsBeginImageContext(size);
-	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextSetFillColorWithColor(context, [color CGColor]);
-	
-	//绘制颜色区域
-	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, w, h) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
 	[path fill];
-	//从图形上下文获取图片
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-	
-	//关闭图形上下文
 	UIGraphicsEndImageContext();
 	return newImage;
 }
