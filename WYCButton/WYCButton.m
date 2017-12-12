@@ -20,18 +20,25 @@
 		temp_cornerRadius = MIN(w, h) / 2.;
 	
 	//开启图形上下文
+	if (size.width == 0 || size.height == 0) {
+		return nil;
+	}
 	UIGraphicsBeginImageContext(size);
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetFillColorWithColor(context, [color CGColor]);
+	
 	//绘制颜色区域
 	UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-	[color setFill];
 	[path fill];
 	//从图形上下文获取图片
 	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+	
 	//关闭图形上下文
 	UIGraphicsEndImageContext();
-	
 	return newImage;
 }
+
 @end
 
 
@@ -193,8 +200,7 @@
 }
 - (void)handleBackgroundImage{
 	if (YES == _isCycle) {
-		self.layer.cornerRadius = imageSize.width > imageSize.height ? imageSize.width / 2.00 : imageSize.height / 2.00;
-		_backgroundImageCornerRadius = self.layer.cornerRadius;
+		_backgroundImageCornerRadius = imageSize.width > imageSize.height ? imageSize.width / 2.00 : imageSize.height / 2.00;
 	}
 	if (normalBackgroundImageColor) {
 		normalBackgroundImage = [UIImage createImageColor:normalBackgroundImageColor size:imageSize cornerRadius:_backgroundImageCornerRadius];
